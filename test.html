@@ -4,12 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./ModBusRTUMaster.js"></script>
-    <script>
-        var modBusRTUMaster = ModBusRTUMaster();
-    </script>
     <title>ModBusRTU</title>
 </head>
 <body>
-    
+    <button id="openPortButt">打开串口</button>
 </body>
+<script>
+    var master = new ModBusRTUMaster();
+
+    openPortButt.addEventListener('click', async function(){
+        try{
+            master.port = await navigator.serial.requestPort();
+        }catch{
+            console.log('请选择串口！');
+            return;
+        }
+        
+        await master.port.open({
+            baudRate: 115200
+        });
+    });
+</script>
 </html>
